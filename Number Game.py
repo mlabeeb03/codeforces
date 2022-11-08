@@ -1,35 +1,36 @@
-import math
- 
-def check_prime(x):
-    n = 2
-    while n <= int(math.sqrt(x)):
-        if x%n == 0: return False
-        n += 1
-    
-    return True
- 
-t = int(input())
- 
-for _ in range(t):
+import sys
+input = lambda: sys.stdin.readline().rstrip("\r\n")
+
+def solve():
     n = int(input())
-    
-    if n == 1: print('FastestFinger')
- 
-    elif n%2 == 1 or n == 2: print('Ashishgup')
- 
-    else:
-        x = 1
-        while n%2 == 0:
-            x *= 2
-            n >>= 1
-            
-        if n == 1:
-            print('FastestFinger')
-        else:
-            if (x == 2):
-                if (check_prime(n)):
-                    print('FastestFinger')
-                else:
-                    print('Ashishgup')
+    a = list(map(int, input().split()))
+    a.sort()
+    ans = 0
+    l = 1
+    r = n 
+    while l <= r:
+        m = (l + r) // 2
+        i = n - 1
+        j = 0
+        taken = 0
+        cantake = m     
+        while i >= j:
+            while i > -1 and a[i] > cantake:
+                i -= 1
+            if i == -1 or i < j:
+                break
             else:
-                print('Ashishgup')
+                taken += 1
+                cantake -= 1
+                i -= 1
+            j += 1
+        if taken == m:
+            ans = max(ans, m)
+            l = m + 1
+        else:
+            r = m - 1
+            
+    print(ans)
+    
+for _ in range(int(input())):
+    solve()
